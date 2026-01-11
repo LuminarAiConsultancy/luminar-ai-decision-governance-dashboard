@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Luminar AI — Decision Governance Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-title">Luminar AI</div>
+    <div class="brand-subtitle">Decision Governance Dashboard • Decision-level evidence • ISO/IEC 42001 Clauses 4–10 evidence support</div>
+  </div>
+
+  <div class="topbar-actions">
+    <div class="status-pill" id="integrityPill" title="Static deployments are tamper-evident, not tamper-proof. Export an anchor for governance custody.">
+      <span class="status-dot" id="integrityDot"></span>
+      <span id="integrityText">Checking…</span>
+    </div>
+
+    <label class="inline-field">
+      <span>Acting user</span>
+      <select id="actingUser">
+        <option value="cao@municipality.ca">cao@municipality.ca</option>
+        <option value="risk.lead@org.ca">risk.lead@org.ca</option>
+        <option value="approver1@org.ca">approver1@org.ca</option>
+        <option value="approver2@org.ca">approver2@org.ca</option>
+      </select>
+    </label>
+
+    <button class="btn btn-ghost" id="btnSeed">Load demo examples</button>
+    <button class="btn" id="btnExportAudit">Export Audit Pack</button>
+    <button class="btn" id="btnExportBoard">Export Board Briefing</button>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Dashboard tabs">
+  <button class="tab active" data-tab="tab-exec">Executive</button>
+  <button class="tab" data-tab="tab-new">New Decision</button>
+  <button class="tab" data-tab="tab-register">Decision Register</button>
+  <button class="tab" data-tab="tab-audit">Audit Log</button>
+  <button class="tab" data-tab="tab-iso">ISO Heat Map</button>
+</nav>
+
+<main class="container">
+
+  <!-- EXEC -->
+  <section id="tab-exec" class="panel tab-panel active">
+    <div class="panel-head">
+      <h1>Purpose</h1>
+      <p class="lead">
+        This dashboard ensures that when AI influences organisational decisions, <strong>accountability, oversight, and risk acceptance</strong>
+        are explicit, deliberate, and owned. It <strong>governs decisions, not technology</strong>.
+      </p>
+      <div class="note">
+        <strong>Boundary:</strong> This dashboard does not evaluate AI performance, bias, data quality, vendors, or certify compliance. It records decision-level evidence for governance and board readiness.
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Decisions recorded</div>
+        <div class="card-metric" id="mTotal">0</div>
+      </div>
+      <div class="card">
+        <div class="card-label">High/Critical pending</div>
+        <div class="card-metric" id="mHighPending">0</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Risk acceptance recorded</div>
+        <div class="card-metric" id="mAcceptance">0%</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ISO evidence readiness</div>
+        <div class="card-metric" id="mEvidence">0%</div>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="box">
+        <h2>Core governance questions answered</h2>
+        <ul class="checklist">
+          <li>What decision was made (statement + context)</li>
+          <li>How AI influenced judgement (tool + influence narrative)</li>
+          <li>Who owned it (decision owner + approver(s))</li>
+          <li>What oversight applied (declared before outcomes)</li>
+          <li>How risk was classified (Low/Medium/High/Critical)</li>
+          <li>What risks were accepted (explicit acceptance)</li>
+          <li>What safeguards existed (declared controls)</li>
+          <li>Whether a tamper-evident record exists (integrity + anchor)</li>
+        </ul>
+      </div>
+
+      <div class="box">
+        <h2>Governance design principles</h2>
+        <ul class="bullets">
+          <li><strong>Human accountability is explicit</strong></li>
+          <li><strong>Oversight is declared before outcomes</strong></li>
+          <li><strong>Risk is documented and accepted consciously</strong></li>
+          <li><strong>Records are tamper-evident</strong> (export an anchor for custody)</li>
+          <li><strong>Judgement is respected</strong></li>
+        </ul>
+
+        <div class="note subtle">
+          <strong>Important:</strong> In a static deployment (Netlify/CodePen), logs are <em>tamper-evident</em>.
+          For true immutability, connect to an append-only server log or store exported anchors in your records system.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEW DECISION -->
+  <section id="tab-new" class="panel tab-panel">
+    <div class="panel-head">
+      <h1>New AI-influenced decision</h1>
+      <p class="muted">
+        Capture a calm, defensible record at the moment of decision — before outcomes are known.
+      </p>
+    </div>
+
+    <form id="decisionForm" class="form">
+      <div class="grid">
+        <div class="field">
+          <label for="dId">Decision ID</label>
+          <input id="dId" placeholder="e.g., DEC-2026-001" required />
+        </div>
+
+        <div class="field">
+          <label for="dDate">Decision date</label>
+          <input id="dDate" type="date" required />
+        </div>
+
+        <div class="field span-2">
+          <label for="dStatement">Decision statement</label>
+          <input id="dStatement" placeholder="What was decided (plain language)" required />
+        </div>
+
+        <div class="field span-2">
+          <label for="dContext">Context</label>
+          <textarea id="dContext" rows="3" placeholder="Why this decision was needed; constraints; who is impacted" required></textarea>
+        </div>
+
+        <div class="field">
+          <label for="dAiSystem">AI system / tool</label>
+          <input id="dAiSystem" placeholder="e.g., Copilot, HR LLM, forecasting model" required />
+        </div>
+
+        <div class="field">
+          <label for="dInfluence">AI influence level</label>
+          <select id="dInfluence" required>
+            <option value="Informative">Informative (input only)</option>
+            <option value="Recommendatory">Recommendatory (suggested an option)</option>
+            <option value="Determinative">Determinative (strongly shaped the outcome)</option>
+          </select>
+        </div>
+
+        <div class="field span-2">
+          <label for="dInfluenceNotes">Influence description</label>
+          <textarea id="dInfluenceNotes" rows="3" placeholder="What outputs were relied on; what was verified; what was not"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="dOwner">Decision owner</label>
+          <input id="dOwner" placeholder="Role or name" required />
+        </div>
+
+        <div class="field">
+          <label for="dRisk">Risk classification</label>
+          <select id="dRisk" required>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            <option value="Critical">Critical</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="dOversight">Declared oversight</label>
+          <select id="dOversight" required>
+            <option value="Self-check">Self-check</option>
+            <option value="Manager review">Manager review</option>
+            <option value="Two-person approval">Two-person approval</option>
+            <option value="Committee review">Committee review</option>
+            <option value="Board/Council oversight">Board/Council oversight</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="dAcceptance">Risk acceptance recorded?</label>
+          <select id="dAcceptance" required>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+
+        <div class="field span-2">
+          <label for="dAcceptanceNotes">Risk acceptance notes</label>
+          <textarea id="dAcceptanceNotes" rows="3" placeholder="If Yes: what risk was accepted, by whom, and why"></textarea>
+        </div>
+
+        <div class="field span-2">
+          <label>Safeguards declared</label>
+          <div class="checks">
+            <label><input type="checkbox" value="Human review before action" class="sg" /> Human review before action</label>
+            <label><input type="checkbox" value="Second approver / separation of duties" class="sg" /> Second approver / separation of duties</label>
+            <label><input type="checkbox" value="Source verification / cross-checking" class="sg" /> Source verification / cross-checking</label>
+            <label><input type="checkbox" value="Bias/impact consideration documented" class="sg" /> Bias/impact consideration documented</label>
+            <label><input type="checkbox" value="Privacy / confidentiality controls" class="sg" /> Privacy / confidentiality controls</label>
+            <label><input type="checkbox" value="Escalation path defined" class="sg" /> Escalation path defined</label>
+          </div>
+        </div>
+
+        <div class="field span-2">
+          <label for="dNotes">Additional notes (optional)</label>
+          <textarea id="dNotes" rows="3" placeholder="Anything else needed for a calm, defensible record"></textarea>
+        </div>
+
+        <div class="actions span-2">
+          <button class="btn" type="submit">Add to register</button>
+          <button class="btn btn-ghost" type="button" id="btnReset">Reset</button>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <!-- REGISTER -->
+  <section id="tab-register" class="panel tab-panel">
+    <div class="panel-head">
+      <h1>Decision register</h1>
+      <div class="toolbar">
+        <input id="search" class="input" placeholder="Search ID, owner, AI system, statement…" />
+        <select id="riskFilter" class="input">
+          <option value="All">All risks</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+          <option value="Critical">Critical</option>
+        </select>
+      </div>
+      <p class="muted small">
+        Approval rules: Low/Medium = 1 approval. High = 2 approvals (different people). Critical = recorded + escalated (board process).
+      </p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Decision</th>
+            <th>AI system</th>
+            <th>Risk</th>
+            <th>Owner</th>
+            <th>Approvals</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="registerBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- AUDIT -->
+  <section id="tab-audit" class="panel tab-panel">
+    <div class="panel-head">
+      <h1>Audit log</h1>
+      <p class="muted">
+        Event-sourced, append-only, hash-chained, and signed. Export an anchor for records custody.
+      </p>
+      <div class="toolbar">
+        <button class="btn btn-ghost" id="btnCopyAudit">Copy audit JSON</button>
+        <button class="btn btn-ghost" id="btnVerify">Re-verify integrity</button>
+        <button class="btn btn-ghost" id="btnClear">Clear demo data</button>
+      </div>
+    </div>
+
+    <pre class="pre" id="auditPre"></pre>
+  </section>
+
+  <!-- ISO -->
+  <section id="tab-iso" class="panel tab-panel">
+    <div class="panel-head">
+      <h1>ISO/IEC 42001 heat map (Clauses 4–10)</h1>
+      <p class="muted">
+        Evidence-support view: what this dashboard helps document, plus mitigation actions when gaps exist.
+      </p>
+    </div>
+
+    <div id="isoGrid" class="iso-grid" aria-label="ISO heatmap"></div>
+
+    <div class="iso-detail" id="isoDetail" aria-live="polite">
+      <h2 id="isoTitle">Select a clause</h2>
+      <p class="muted" id="isoDesc">Click a tile to see description and mitigation guidance.</p>
+      <div class="iso-block">
+        <h3>Typical evidence captured by this dashboard</h3>
+        <ul id="isoEvidence"></ul>
+      </div>
+      <div class="iso-block">
+        <h3>Mitigations when this is weak or missing</h3>
+        <ul id="isoMitigations"></ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- APPROVAL MODAL -->
+<div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h2 id="modalTitle">Approval rationale</h2>
+    <p class="muted" id="modalHint">Written rationale is mandatory.</p>
+    <label class="field">
+      <span class="label">Rationale</span>
+      <textarea id="approvalRationale" rows="4" placeholder="Explain why you approve this decision"></textarea>
+    </label>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="btnCancelModal">Cancel</button>
+      <button class="btn" id="btnConfirmModal">Confirm approval</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
